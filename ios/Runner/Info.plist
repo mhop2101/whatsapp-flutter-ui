@@ -56,5 +56,13 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Upload profile picture</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Take picture camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Take video</string>
+	<key>NSContactsUsageDescription</key>
+    <string>Reason we need access to the contact list</string>
 </dict>
 </plist>

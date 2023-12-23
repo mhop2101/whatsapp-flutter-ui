@@ -2,6 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/colors.dart';
+import 'package:whatsapp_ui/common/utils/utils.dart';
+import 'package:whatsapp_ui/common/widgets/loader.dart';
+import 'package:whatsapp_ui/features/auth/controller/auth_controller.dart';
 import 'package:whatsapp_ui/features/landing/screens/landing_screen.dart';
 import 'package:whatsapp_ui/firebase_options.dart';
 import 'package:whatsapp_ui/router.dart';
@@ -17,11 +20,11 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Whatsapp UI',
@@ -29,11 +32,17 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: backgroundColor,
           appBarTheme: AppBarTheme(color: appBarColor)),
       onGenerateRoute: (settings) => generatedRoute(settings),
-      home: const ResponsiveLayout(
-        //mobileScreenLayout: MobileLayoutScreen(),
-        mobileScreenLayout: LandingScreen(),
-        webScreenLayout: WebLayoutScreen(),
-      ),
+      home: ref.watch(userDataAuthProvider).when(data: (user) {
+        if (user == null) {
+          return const LandingScreen();
+        }
+        return const MobileLayoutScreen();
+      }, error: (err, trace) {
+        showSnackBar(context: context, message: err.toString());
+        return const LandingScreen();
+      }, loading: () {
+        return const Loader();
+      }),
     );
   }
 }
