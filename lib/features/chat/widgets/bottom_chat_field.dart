@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
-import 'package:enough_giphy_flutter/enough_giphy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:whatsapp_ui/colors.dart';
 import 'package:whatsapp_ui/common/enums/message_enum.dart';
 import 'package:whatsapp_ui/common/utils/utils.dart';
@@ -24,8 +28,36 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
   bool isShowSendButton = false;
   bool isLoading = false;
   bool isShowEmojiContainer = false;
+  bool isRecorderInitialized = false;
+  bool isRecording = false;
+  FlutterSoundRecorder? _soundRecorder;
   FocusNode focusNode = FocusNode();
   final TextEditingController _messageController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _soundRecorder = FlutterSoundRecorder();
+    openAudioRecorder();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _messageController.dispose();
+    _soundRecorder!.closeRecorder();
+    isRecorderInitialized = false;
+  }
+
+  void openAudioRecorder() async {
+    final status = await Permission.microphone.request();
+    if (status != PermissionStatus.granted) {
+      throw RecordingPermissionException('Microphone permission not granted');
+    }
+
+    await _soundRecorder!.openRecorder();
+    isRecorderInitialized = true;
+  }
 
   void sendFileMessage(File file, MessageEnum messageEnum) {
     ref.read(chatControllerProvider).sendFileMessage(
@@ -91,18 +123,31 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
     focusNode.unfocus();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _messageController.dispose();
-  }
-
   void sendTextMessage() async {
     if (isShowSendButton) {
       ref.read(chatControllerProvider).sendTextMessage(
           context, _messageController.text.trim(), widget.recieverUserId);
+      setState(() {
+        _messageController.clear();
+      });
+    } else {
+      if (!isRecorderInitialized) {
+        return;
+      }
+      var temporalDir = await getTemporaryDirectory();
+      var path = '${temporalDir.path}/flutter_sound.aac';
+      if (isRecording) {
+        await _soundRecorder!.stopRecorder();
+      } else {
+        await _soundRecorder!.startRecorder(
+          toFile: path,
+          codec: Codec.aacMP4,
+        );
+      }
+      setState(() {
+        isRecording = !isRecording;
+      });
     }
-    _messageController.clear();
   }
 
   @override
@@ -240,11 +285,8 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                       });
                     }
                   },
-                )
-          )
+                ))
             : const SizedBox(),
-        
-      
       ],
     );
   }
