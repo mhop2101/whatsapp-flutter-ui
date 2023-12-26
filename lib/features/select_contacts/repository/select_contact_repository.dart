@@ -41,10 +41,13 @@ class SelectContactRepository {
             userData.phoneNumber.replaceAll(" ", "").replaceAll("-", "");
         String selectedContactNumber = selectedContact.phones[0].number
             .replaceAll(" ", "")
-            .replaceAll("-", "");
+            .replaceAll("-", "")
+            .replaceAll("(", "")
+            .replaceAll(")", "");
 
         
-
+        print(userDataNumber);
+        print(selectedContactNumber);
         if (userDataNumber.contains(selectedContactNumber)) {
           isFound = true;
           Navigator.pushNamed(context, MobileChatScreen.routeName, arguments: {
