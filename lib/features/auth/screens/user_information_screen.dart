@@ -20,7 +20,6 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     nameController.dispose();
   }
@@ -58,7 +57,7 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
             Stack(
               children: [
                 image == null
-                    ? CircleAvatar(
+                    ? const CircleAvatar(
                         radius: 64,
                         backgroundImage: NetworkImage(
                             'https://img-cdn.thepublive.com/filters:format(webp)/socialketchup/media/post_banners/OjlG6Q2htUlU89sK5CLJ.jpg'),
@@ -86,7 +85,8 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
                   padding: const EdgeInsets.all(20),
                   child: TextField(
                     controller: nameController,
-                    decoration: InputDecoration(hintText: 'Enter your name'),
+                    decoration:
+                        const InputDecoration(hintText: 'Enter your name'),
                   ),
                 ),
                 IconButton(

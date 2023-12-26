@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/common/repositories/common_firebase_storage_repository.dart';
@@ -132,5 +131,12 @@ class AuthRepository {
             event.data()!,
           ),
         );
+  }
+
+  void setUserState(bool isOnline) async {
+    String uid = auth.currentUser!.uid;
+    await firestore.collection('users').doc(uid).update({
+      'isOnline': isOnline,
+    });
   }
 }

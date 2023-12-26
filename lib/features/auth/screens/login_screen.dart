@@ -20,7 +20,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     phoneController.dispose();
   }
@@ -55,7 +54,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: backgroundColor,
-        title: Text("Enter yout phone number"),
+        title: const Text("Enter yout phone number"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -74,7 +73,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     onPressed: () {
                       pickCountry();
                     },
-                    child: Text('Pick Country'),
+                    child: const Text('Pick Country'),
                   ),
                   const SizedBox(
                     height: 5,
@@ -90,7 +89,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         width: MediaQuery.of(context).size.width * 0.7,
                         child: TextField(
                           controller: phoneController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'phone number',
                           ),
                         ),

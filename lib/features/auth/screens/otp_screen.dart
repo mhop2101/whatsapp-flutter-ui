@@ -20,7 +20,7 @@ class OTPScreen extends ConsumerWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: backgroundColor,
-          title: Text("Verifying your number"),
+          title: const Text("Verifying your number"),
         ),
         body: Center(
           child: Column(

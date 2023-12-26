@@ -20,10 +20,10 @@ class LandingScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Text(
+            const Text(
               "Welcome to WhatsApp",
               style: TextStyle(
                 fontSize: 33,
@@ -42,8 +42,8 @@ class LandingScreen extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.03,
             ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
               child: Text(
                 "Read our Privacy Policy Tap, 'Agree and continue' to accept the Terms of Service",
                 textAlign: TextAlign.center,
@@ -54,7 +54,7 @@ class LandingScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(

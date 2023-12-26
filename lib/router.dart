@@ -3,7 +3,6 @@ import 'package:whatsapp_ui/common/widgets/error.dart';
 import 'package:whatsapp_ui/features/auth/screens/login_screen.dart';
 import 'package:whatsapp_ui/features/auth/screens/otp_screen.dart';
 import 'package:whatsapp_ui/features/auth/screens/user_information_screen.dart';
-import 'package:whatsapp_ui/features/landing/screens/landing_screen.dart';
 import 'package:whatsapp_ui/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:whatsapp_ui/features/chat/screens/mobile_chat_screen.dart';
 import 'package:whatsapp_ui/screens/mobile_layout_screen.dart';

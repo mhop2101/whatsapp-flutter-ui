@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_ui/colors.dart';
+import 'package:whatsapp_ui/common/enums/message_enum.dart';
+import 'package:whatsapp_ui/features/chat/widgets/display_text_image_gif.dart';
 
 class MyMessageCard extends StatelessWidget {
   final String message;
   final String date;
+  final MessageEnum messageType;
 
-  const MyMessageCard({Key? key, required this.message, required this.date}) : super(key: key);
+  const MyMessageCard({
+    Key? key,
+    required this.message,
+    required this.date,
+    required this.messageType,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +31,21 @@ class MyMessageCard extends StatelessWidget {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 30,
-                  top: 5,
-                  bottom: 20,
-                ),
-                child: Text(
-                  message,
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+                  padding: messageType == MessageEnum.text
+                      ? const EdgeInsets.only(
+                          left: 10,
+                          right: 30,
+                          top: 5,
+                          bottom: 20,
+                        )
+                      : const EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                          top: 8,
+                          bottom: 25,
+                        ),
+                  child: DisplayTextImageGif(
+                      message: message, messageType: messageType)),
               Positioned(
                 bottom: 4,
                 right: 10,
@@ -43,7 +53,7 @@ class MyMessageCard extends StatelessWidget {
                   children: [
                     Text(
                       date,
-                      style:const TextStyle(
+                      style: const TextStyle(
                         fontSize: 13,
                         color: Colors.white60,
                       ),

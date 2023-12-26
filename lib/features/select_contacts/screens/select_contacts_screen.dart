@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/common/widgets/loader.dart';
@@ -53,14 +51,14 @@ class SelectContactsScreen extends ConsumerWidget {
                             ),
                       title: Text(
                         contact.displayName,
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
                   ),
                 );
               })),
-          error: (err, trace) => Placeholder(),
-          loading: () => Loader()),
+          error: (err, trace) => const Placeholder(),
+          loading: () => const Loader()),
     );
   }
 }
