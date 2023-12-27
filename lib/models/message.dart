@@ -9,7 +9,7 @@ class Message {
   final MessageEnum type;
   final DateTime timeSent;
   final String messageId;
-  final String isSeen;
+  final bool isSeen;
   final String repliedMessage;
   final String repliedTo;
   final MessageEnum repliedMessageType;
@@ -50,7 +50,7 @@ class Message {
       type: (map['type'] as String).toEnum(),
       timeSent: DateTime.fromMillisecondsSinceEpoch(map['timeSent']),
       messageId: map['messageId'] ?? '',
-      isSeen: map['isSeen'] ?? '',
+      isSeen: map['isSeen'] ?? false,
       repliedMessage: map['repliedMessage'] ?? '',
       repliedTo: map['repliedTo'] ?? '',
       repliedMessageType: (map['repliedMessageType'] as String).toEnum(),

@@ -61,6 +61,14 @@ class _ChatListState extends ConsumerState<ChatList> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               final Message message = snapshot.data![index];
+              if (!message.isSeen &&
+                  message.receiverId != widget.recieverUserId) {
+                ref.read(chatControllerProvider).setChatMessageSeen(
+                      context,
+                      widget.recieverUserId,
+                      message.messageId,
+                    );
+              }
               if (message.receiverId == widget.recieverUserId) {
                 return MyMessageCard(
                   message: message.text,
@@ -71,6 +79,7 @@ class _ChatListState extends ConsumerState<ChatList> {
                   repliedMessageType: message.repliedMessageType,
                   onLeftSwipe: (() =>
                       onMessageSwipe(message.text, true, message.type)),
+                  isSeen: message.isSeen,
                 );
               }
               return SenderMessageCard(
