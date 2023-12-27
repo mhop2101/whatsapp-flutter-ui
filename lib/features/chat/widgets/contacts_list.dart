@@ -66,13 +66,12 @@ class ContactsList extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const Divider(color: dividerColor, indent: 85),
+                    const Divider(color: dividerColor, indent: 0),
                   ],
                 );
               },
             );
-          }
-      ),
+          }),
     );
   }
 }

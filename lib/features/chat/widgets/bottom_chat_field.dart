@@ -9,8 +9,10 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'package:whatsapp_ui/colors.dart';
 import 'package:whatsapp_ui/common/enums/message_enum.dart';
+import 'package:whatsapp_ui/common/providers/message_reply_provider.dart';
 import 'package:whatsapp_ui/common/utils/utils.dart';
 import 'package:whatsapp_ui/features/chat/controller/chat_controller.dart';
+import 'package:whatsapp_ui/features/chat/widgets/message_reply_preview.dart';
 
 class BottomChatField extends ConsumerStatefulWidget {
   final String recieverUserId;
@@ -137,6 +139,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
       var path = '${temporalDir.path}/flutter_sound.aac';
       if (isRecording) {
         await _soundRecorder!.stopRecorder();
+        sendFileMessage(File(path), MessageEnum.audio);
       } else {
         await _soundRecorder!.startRecorder(
           toFile: path,
@@ -151,8 +154,11 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
 
   @override
   Widget build(BuildContext context) {
+    final messageReply = ref.watch(messageReplyProvider);
+    final isShowMessageReply = messageReply != null;
     return Column(
       children: [
+        isShowMessageReply ? const MessageReplyPreview() : const SizedBox(),
         Row(
           children: [
             Expanded(
@@ -253,7 +259,12 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                   },
                   child: isShowSendButton
                       ? const Icon(Icons.send, color: Colors.white)
-                      : const Icon(Icons.mic, color: Colors.white),
+                      : isRecording
+                          ? const Icon(
+                              Icons.close,
+                              color: Colors.white,
+                            )
+                          : const Icon(Icons.mic, color: Colors.white),
                 ),
               ),
             ),

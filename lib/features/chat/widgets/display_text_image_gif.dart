@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_ui/common/enums/message_enum.dart';
@@ -11,6 +12,9 @@ class DisplayTextImageGif extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isPlay = false;
+    final AudioPlayer audioPlayer = AudioPlayer();
+
     return messageType == MessageEnum.text
         ? Text(
             message,
@@ -24,6 +28,28 @@ class DisplayTextImageGif extends StatelessWidget {
                 ? VideoPlayerItem(videoUrl: message)
                 : messageType == MessageEnum.gif
                     ? CachedNetworkImage(imageUrl: message)
-                    : const SizedBox();
+                    : messageType == MessageEnum.audio
+                        ? StatefulBuilder(builder: (context, setState) {
+                            return IconButton(
+                                constraints:
+                                    const BoxConstraints(minWidth: 100),
+                                onPressed: () async {
+                                  if (isPlay) {
+                                    await audioPlayer.pause();
+                                    setState(() {
+                                      isPlay = false;
+                                    });
+                                  } else {
+                                    await audioPlayer.play(UrlSource(message));
+                                    setState(() {
+                                      isPlay = true;
+                                    });
+                                  }
+                                },
+                                icon: Icon(isPlay
+                                    ? Icons.pause_circle
+                                    : Icons.play_circle));
+                          })
+                        : SizedBox();
   }
 }
