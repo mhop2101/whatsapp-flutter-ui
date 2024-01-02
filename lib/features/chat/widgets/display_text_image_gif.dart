@@ -50,6 +50,6 @@ class DisplayTextImageGif extends StatelessWidget {
                                     ? Icons.pause_circle
                                     : Icons.play_circle));
                           })
-                        : SizedBox();
+                        : const SizedBox();
   }
 }
